@@ -2,6 +2,6 @@
   "compilerOptions": {
     "allowJs": true,
     "checkJs": true,
-    "noImplicitAny": true
+    "noImplicitAny": true // 타입을 any라도 무조건 정의를 명시적으로 해달라
   }
 }
