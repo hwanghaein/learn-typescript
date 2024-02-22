@@ -1,7 +1,19 @@
-let todoItems: { id: number; title: string; done: boolean }[]; // 배열 안의 객체들
+// type Todo = {
+//   id: number;
+//   title: string;
+//   done: boolean;
+// };
+
+interface Todo {  // interface를 통해 중복 코드를 간결하게 작성함
+  id: number;
+  title: string;
+  done: boolean;
+}
+
+let todoItems: Todo[]; // 배열 안의 객체들
 
 // api
-function fetchTodoItems(): { id: number; title: string; done: boolean }[] {
+function fetchTodoItems(): Todo[] { // Todo라는 타입을 썼고, 타입은 interface를 씀
   const todos = [
     { id: 1, title: "안녕", done: false },
     { id: 2, title: "타입", done: false },
@@ -16,7 +28,7 @@ function fetchTodos(): object[] {
   return todos;
 }
 
-function addTodo(todo: { id: number; title: string; done: boolean }): void {
+function addTodo(todo: Todo): void {
   todoItems.push(todo);
 }
 
@@ -26,7 +38,7 @@ function deleteTodo(index: number): void {
 
 function completeTodo(
   index: number,
-  todo: { id: number; title: string; done: boolean }
+  todo: Todo
 ): void {
   todo.done = true;
   todoItems.splice(index, 1, todo);
