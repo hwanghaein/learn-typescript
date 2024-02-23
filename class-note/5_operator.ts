@@ -6,8 +6,8 @@
 // value가 any면, 코드를 추론하는 시점에서 type을 정의할 수 없어서 속성들을 안 보여줌
 
 
-  let soho: string | number | boolean;
-  function logMessage(value: string | number) { // 유니온 타입 (Union Type) 
+  let soho: string | number | boolean; // 유니온 타입 (Union Type) : 3가지 타입 중에 하나가 될 수 있다.
+  function logMessage(value: string | number) { 
      if (typeof value === "number"){ // number에 대한 속성들을 바로 보여줘서 사용할 수 있게 됨
       value.toLocaleString();
      }
