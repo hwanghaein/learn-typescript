@@ -28,3 +28,11 @@ let sum: SumFunction;
 sum = function (a: number, b: number): number {
   return a + b;
 };
+
+// 인덱싱
+interface StringArray{
+  [index: number]: string;
+}
+
+let arr : StringArray = ["a", "b", "c"];
+// arr[0] = 10 // 할당 불가
