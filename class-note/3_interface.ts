@@ -36,3 +36,15 @@ interface StringArray{
 
 let arr : StringArray = ["a", "b", "c"];
 // arr[0] = 10 // 할당 불가
+
+// 딕셔너리 패턴 
+interface StringRegexDictionary {
+ [key: string]: RegExp // 정규표현식 생산자 같은거 
+}
+
+let obj: StringRegexDictionary = {
+  // sth: /abc/,
+  cssFile:/\.css$/,
+  JsFile:/\.js$/,
+}
+
