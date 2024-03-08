@@ -87,3 +87,19 @@ return text;
 }
 
 logTextLength("a");
+
+
+// 제네릭의 타입 제한 3 - keyof
+interface ShoppingItem {
+  name: string;
+  price: number;
+  stock: number;
+}
+
+function getShoppingItemOption<T extends keyof ShoppingItem>(itemOption: T): T {
+  return itemOption; // ShoppingItem에 있는 key값들 중에 한가지가 바로 제네릭이 된다.
+}
+
+// getShoppingItemOption(10);
+// getShoppingItemOption<string>('a');
+getShoppingItemOption("name") // ctrl + space
