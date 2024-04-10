@@ -5,4 +5,8 @@ q = 20;
 q = "q"
 var b = q as string;
 
- 
+// DOM API 조작
+var div = document.querySelector('div') as HTMLDivElement;
+if (div) {
+  div.innerHTML
+}
