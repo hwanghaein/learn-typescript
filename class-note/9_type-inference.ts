@@ -42,4 +42,5 @@ function getB (b = 10){
 // }
 
 
-
+// Best Common Type -> 가장 근접한 타입을 추론한다. 유니온으로 묶어나감
+var arr = [1,2,true, true, "a"]; 
