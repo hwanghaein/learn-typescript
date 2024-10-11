@@ -54,3 +54,55 @@ type UpdateProduct = Partial<Product>
 
 function updateProductItem(productItem: UpdateProduct){
   }
+
+
+  // 4. 유틸리티 타입 구현하기 - Partial
+  interface UserProfile {
+    username: string;
+    email: string;
+    profilePhotoUrl: string;
+  }
+  // interface UserProfileUpdate{
+  //   username?: string;
+  //   email?: string;
+  //   profilePhotoUrl?: string;
+  // }
+
+
+  // 1번째 방식
+// type UserProfileUpdate = {
+//   username?: UserProfile['username'];
+//   email?: UserProfile['email'];
+//   profilePhotoUrl?: UserProfile['profilePhotoUrl'];
+// }
+
+// 2번째 방식 (Mapped Type)
+// type UserProfileUpdate = {
+// [p in 'username' | 'email' | 'profilePhotoUrl' ]? : UserProfile[p]
+// }
+
+type UserProfileKeys = keyof UserProfile
+
+// 3번째 방식 (keyof)
+type UserProfileUpdate = {
+  [p in keyof UserProfile]? : UserProfile[p]
+  }
+
+
+
+// 4번째 방식 (제네릭) -> Partial의 구현 모습
+// 타입을 선언해서 사용할때 이미 정의돼있는 다른 타입을 넘겨받을 수 있게끔 제네릭 사용
+// 다양한 타입에 대해 동일한 로직을 적용할 수 있음 (재사용)
+
+type Subset<T> = {
+  [p in keyof T]? : T[p]
+}
+
+// const obj: Partial;
+
+/**
+ * Make all properties in T optional
+ */
+// type Partial<T> = {
+//   [P in keyof T]?: T[P];
+// };
