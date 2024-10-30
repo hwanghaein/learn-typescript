@@ -1,8 +1,8 @@
 // utils
-function $(selector: any) {
+function $(selector: string) {
   return document.querySelector(selector);
 }
-function getUnixTimestamp(date: any) {
+function getUnixTimestamp(date: Date) {
   return new Date(date).getTime();
 }
 
@@ -17,7 +17,7 @@ const recoveredList = $(".recovered-list");
 const deathSpinner = createSpinnerElement("deaths-spinner");
 const recoveredSpinner = createSpinnerElement("recovered-spinner");
 
-function createSpinnerElement(id: any) {
+function createSpinnerElement(id: string) {
   const wrapperDiv = document.createElement("div");
   wrapperDiv.setAttribute("id", id);
   wrapperDiv.setAttribute(
@@ -57,8 +57,14 @@ function fetchCovidSummary() {
   return axios.get(url);
 }
 
-function fetchCountryInfo(countryCode: any, status: any) {
-  // params: confirmed, recovered, deaths
+enum CovidStatus {
+  Confirmed = 'confirmed',
+  Recovered = 'recoverd',
+  Deaths = 'deaths'
+}
+
+function fetchCountryInfo(countryCode: string, status: CovidStatus) {
+  // status params: confirmed, recovered, deaths
   const url = `https://api.covid19api.com/country/${countryCode}/status/${status}`;
   return axios.get(url);
 }
