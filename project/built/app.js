@@ -83,9 +83,6 @@ function fetchCovidSummary() {
     var url = "https://api.covid19api.com/summary";
     return axios.get(url);
 }
-fetchCovidSummary().then(function (res) {
-    console.log(res);
-});
 function fetchCountryInfo(countryCode, status) {
     // params: confirmed, recovered, deaths
     var url = "https://api.covid19api.com/country/".concat(countryCode, "/status/").concat(status);
@@ -233,7 +230,9 @@ function setChartData(data) {
     var chartData = data.slice(-14).map(function (value) { return value.Cases; });
     var chartLabel = data
         .slice(-14)
-        .map(function (value) { return new Date(value.Date).toLocaleDateString().slice(5, -1); });
+        .map(function (value) {
+        return new Date(value.Date).toLocaleDateString().slice(5, -1);
+    });
     renderChart(chartData, chartLabel);
 }
 function setTotalConfirmedNumber(data) {
