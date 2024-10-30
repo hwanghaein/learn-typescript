@@ -1,16 +1,17 @@
 // utils
 function $(selector: string) {
-  return document.querySelector(selector);
+  return document.querySelector(selector);  // 타입이 자동적으로 Element로 추론됨 
 }
 function getUnixTimestamp(date: Date) {
   return new Date(date).getTime();
 }
 
 // DOM
-const confirmedTotal = $(".confirmed-total");
-const deathsTotal = $(".deaths");
-const recoveredTotal = $(".recovered");
-const lastUpdatedTime = $(".last-updated-time");
+// Element | HTMLElement | HTMLParagraphElement
+const confirmedTotal = $(".confirmed-total") as HTMLSpanElement;
+const deathsTotal = $(".deaths") as HTMLParagraphElement;
+const recoveredTotal = $(".recovered") as HTMLParagraphElement;
+const lastUpdatedTime = $(".last-updated-time") as HTMLParagraphElement;
 const rankList = $(".rank-list");
 const deathsList = $(".deaths-list");
 const recoveredList = $(".recovered-list");
@@ -110,7 +111,7 @@ async function handleListClick(event: any) {
   );
   endLoadingAnimation();
   setDeathsList(deathResponse);
-  setTotalDeathsByCountry(deathResponse);
+  setTotalDeathsByCountry(deathResponse); 
   setRecoveredList(recoveredResponse);
   setTotalRecoveredByCountry(recoveredResponse);
   setChartData(confirmedResponse);
