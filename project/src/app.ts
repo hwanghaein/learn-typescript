@@ -1,5 +1,6 @@
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import { Chart } from "chart.js"
+import { CovidSummaryResponse, CountrySummaryResponse, Country } from "./covid/index";
 
 
 // utils
@@ -57,10 +58,18 @@ let isRecoveredLoading = false;
 /**
  * @returns {Promise<CovidSummary>}
  */
-function fetchCovidSummary() {
+
+
+
+
+
+
+function fetchCovidSummary(): Promise<AxiosResponse<CovidSummaryResponse>> {
   const url = "https://api.covid19api.com/summary";
   return axios.get(url);
-}
+} 
+
+// fetchCovidSummary().then(res=>res.data.Countries)
 
 //이넘 : 값들이 정해져있고, 값들의 집합
 enum CovidStatus {
@@ -69,7 +78,7 @@ enum CovidStatus {
   Deaths = "deaths",
 }
 
-function fetchCountryInfo(countryCode: string, status: CovidStatus) {
+function fetchCountryInfo(countryCode: string, status: CovidStatus): Promise<AxiosResponse<CountrySummaryResponse>> {
   // status params: confirmed, recovered, deaths
   const url = `https://api.covid19api.com/country/${countryCode}/status/${status}`;
   return axios.get(url);
@@ -81,7 +90,7 @@ function startApp() {
   initEvents();
 }
 
-// events
+// events 
 function initEvents() {
   rankList.addEventListener("click", handleListClick);
 }
@@ -197,7 +206,7 @@ async function setupData() {
 }
 
 function renderChart(data: any, labels: any) {
-  var ctx = $("#lineChart").getContext("2d");
+  var ctx = ($("#lineChart") as HTMLCanvasElement).getContext("2d");
   Chart.defaults.color = "#f5eaea";
   Chart.defaults.font.family = "Exo 2";
   new Chart(ctx, {
@@ -227,11 +236,11 @@ function setChartData(data: any) {
   renderChart(chartData, chartLabel);
 }
 
-function setTotalConfirmedNumber(data: any) {
+function setTotalConfirmedNumber(data: CovidSummaryResponse) {
   confirmedTotal.innerText = data.Countries.reduce(
-    (total: any, current: any) => (total += current.TotalConfirmed),
+    (total: number, current: Country) => (total += current.TotalConfirmed),
     0
-  );
+  ).toString();
 }
 
 function setTotalDeathsByWorld(data: any) {
