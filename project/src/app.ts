@@ -1,6 +1,10 @@
+import axios from "axios";
+import Chart from "chart.js"
+
+
 // utils
 function $(selector: string) {
-  return document.querySelector(selector);  // 타입이 자동적으로 Element로 추론됨 
+  return document.querySelector(selector); // 타입이 자동적으로 Element로 추론됨
 }
 function getUnixTimestamp(date: Date) {
   return new Date(date).getTime();
@@ -57,12 +61,12 @@ function fetchCovidSummary() {
   const url = "https://api.covid19api.com/summary";
   return axios.get(url);
 }
- 
+
 //이넘 : 값들이 정해져있고, 값들의 집합
 enum CovidStatus {
-  Confirmed = 'confirmed',
-  Recovered = 'recoverd',
-  Deaths = 'deaths'
+  Confirmed = "confirmed",
+  Recovered = "recoverd",
+  Deaths = "deaths",
 }
 
 function fetchCountryInfo(countryCode: string, status: CovidStatus) {
@@ -100,18 +104,21 @@ async function handleListClick(event: any) {
   clearRecoveredList();
   startLoadingAnimation();
   isDeathLoading = true;
-  const { data: deathResponse } = await fetchCountryInfo(selectedId, CovidStatus.Deaths);
+  const { data: deathResponse } = await fetchCountryInfo(
+    selectedId,
+    CovidStatus.Deaths
+  );
   const { data: recoveredResponse } = await fetchCountryInfo(
     selectedId,
-    CovidStatus.Recovered,
+    CovidStatus.Recovered
   );
   const { data: confirmedResponse } = await fetchCountryInfo(
     selectedId,
-    CovidStatus.Confirmed,
+    CovidStatus.Confirmed
   );
   endLoadingAnimation();
   setDeathsList(deathResponse);
-  setTotalDeathsByCountry(deathResponse); 
+  setTotalDeathsByCountry(deathResponse);
   setRecoveredList(recoveredResponse);
   setTotalRecoveredByCountry(recoveredResponse);
   setChartData(confirmedResponse);
