@@ -29,7 +29,7 @@ export interface CovidSummaryResponse {
   Message: string;
 } 
 
-interface CountrySummaryInfo{
+export interface CountrySummaryInfo{
 Cases: number;
 City: string;
 CityCord: string;
