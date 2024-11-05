@@ -4,22 +4,25 @@ import { CovidSummaryResponse, CountrySummaryResponse, Country, CountrySummaryIn
 
 
 // utils
-function $(selector: string) {
-  return document.querySelector(selector); // 타입이 자동적으로 Element로 추론됨
+function $<T extends HTMLElement>(selector: string) {
+  const element = document.querySelector(selector); // 타입이 자동적으로 Element로 추론됨
+  return element as T;
 }
+
 function getUnixTimestamp(date: Date | string) {
   return new Date(date).getTime();
 }
 
 // DOM
-// Element | HTMLElement | HTMLParagraphElement
-const confirmedTotal = $(".confirmed-total") as HTMLSpanElement;
+// Element | HTMLElement | HTMLParagraphElement 등...
+const confirmedTotal = $<HTMLSpanElement>(".confirmed-total"); // 함수 호출 시에 제네릭 타입 T를 구체적으로 지정해주면 element의 타입이 T로 반환됨
+// 문서 내에서 .deaths라는 클래스 선택자를 가진 요소를 찾아 반환할 때, 그 요소가 HTMLParagraphElement 타입이라고 간주
 const deathsTotal = $(".deaths") as HTMLParagraphElement;
-const recoveredTotal = $(".recovered") as HTMLParagraphElement;
+const recoveredTotal = $<HTMLParagraphElement>(".recovered");
 const lastUpdatedTime = $(".last-updated-time") as HTMLParagraphElement;
-const rankList = $(".rank-list");
-const deathsList = $(".deaths-list");
-const recoveredList = $(".recovered-list");
+const rankList = $(".rank-list") as HTMLOListElement;
+const deathsList = $(".deaths-list") as HTMLOListElement;
+const recoveredList = $(".recovered-list") as HTMLOListElement;
 const deathSpinner = createSpinnerElement("deaths-spinner");
 const recoveredSpinner = createSpinnerElement("recovered-spinner");
 
@@ -86,12 +89,12 @@ function startApp() {
 
 // events 
 function initEvents() {
-  if(!rankList){
+  if (!rankList) {
     return;
   }
   rankList.addEventListener("click", handleListClick);
 }
- 
+
 async function handleListClick(event: Event) {
   let selectedId;
   if (
@@ -145,12 +148,15 @@ function setDeathsList(data: CountrySummaryResponse) {
     p.textContent = new Date(value.Date).toLocaleDateString().slice(0, -1);
     li.appendChild(span);
     li.appendChild(p);
-    deathsList.appendChild(li);
+    deathsList!.appendChild(li);
   });
 }
 
 function clearDeathList() {
-  deathsList.innerHTML = null;
+  if (!deathsList) {
+    return;
+  }
+  deathsList.innerHTML = '';
 }
 
 function setTotalDeathsByCountry(data: CountrySummaryResponse) {
@@ -171,12 +177,21 @@ function setRecoveredList(data: CountrySummaryResponse) {
     p.textContent = new Date(value.Date).toLocaleDateString().slice(0, -1);
     li.appendChild(span);
     li.appendChild(p);
-    recoveredList.appendChild(li);
+
+    recoveredList?.appendChild(li);
+    // null이 appendChild를 하지않고, Element면 appenChild를 해라
+
+    // if (recoveredList === null || recoveredList === undefined){
+    // return;
+    // } else {
+    // recoveredList.appendChild(li);
+    // }
+    // }
   });
 }
 
 function clearRecoveredList() {
-  recoveredList.innerHTML = null;
+  recoveredList.innerHTML = '';
 }
 
 function setTotalRecoveredByCountry(data: CountrySummaryResponse) {
